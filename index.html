@@ -221,6 +221,11 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
+            transition: transform 0.3s ease;
+        }
+
+        .nav.hidden {
+            transform: translateY(-100%);
         }
 
         .nav-container {
@@ -573,6 +578,7 @@
         .ads {
             background: var(--bg-primary);
             position: relative;
+            overflow: hidden;
         }
 
         .ads-slider-container {
@@ -1022,7 +1028,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="nav">
+    <nav class="nav" id="main-nav">
         <div class="nav-container">
             <a href="#" class="logo">
                 <img src="images/smmlogo.png" width="80px"; height="65px" >
@@ -1466,6 +1472,25 @@
             initThreeJSSection('contact-threejs', 5);
         });
 
+        // Navigation hide/show on scroll
+        const nav = document.getElementById('main-nav');
+        let lastScrollTop = 0;
+        const scrollThreshold = 100; // Minimum scroll distance before hiding nav
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+                // Scrolling down and past threshold - hide nav
+                nav.classList.add('hidden');
+            } else {
+                // Scrolling up - show nav
+                nav.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
         // Theme Toggle Functionality
         const themeToggle = document.querySelector('.theme-toggle');
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -1765,4 +1790,3 @@
     </script>
 </body>
 </html>
-
